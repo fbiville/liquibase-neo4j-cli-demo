@@ -11,4 +11,19 @@
     </changeSet>
 
     <include file="includes/changeLog.cypher" />
+
+    <changeSet id="show-some-neo4j-love" author="fbiville" runAlways="true">
+    	<preConditions>
+            <and>
+                <sqlCheck expectedResult="true">
+                    CALL dbms.components()
+                    YIELD name, versions
+                    WHERE name CONTAINS "Kernel"
+                    RETURN versions[0] STARTS WITH "4.4"
+                </sqlCheck>
+            </and>
+        </preConditions>
+        <neo4j:cypher>MATCH (c:Count) SET c.poweredBy = "Neo4j 4.4"</neo4j:cypher>
+        <rollback>MATCH (c:Count) REMOVE c.poweredBy</rollback>
+    </changeSet>
 </databaseChangeLog>

@@ -12,18 +12,24 @@
 
     <include file="includes/changeLog.cypher" />
 
-    <changeSet id="show-some-neo4j-love" author="fbiville" runAlways="true">
+    <changeSet id="show-some-neo4j-love" author="fbiville">
     	<preConditions>
             <and>
-                <sqlCheck expectedResult="true">
-                    CALL dbms.components()
-                    YIELD name, versions
-                    WHERE name CONTAINS "Kernel"
-                    RETURN versions[0] STARTS WITH "4.4"
-                </sqlCheck>
+                <neo4j:version matches="4.4" />
+                <neo4j:edition enterprise="true" />
+                <neo4j:cypherCheck expectedResult="42">RETURN 42</neo4j:cypherCheck>
             </and>
         </preConditions>
         <neo4j:cypher>MATCH (c:Count) SET c.poweredBy = "Neo4j 4.4"</neo4j:cypher>
         <rollback>MATCH (c:Count) REMOVE c.poweredBy</rollback>
+    </changeSet>
+
+    <changeSet id="just-kidding" author="fbiville">
+    	<preConditions onFail="CONTINUE">
+            <!-- not the same as onError -->
+            <!-- value can be HALT, CONTINUE, MARK_RAN, WARN -->
+            <neo4j:version matches="1.0" />
+        </preConditions>
+        <neo4j:cypher>this is not gonna run</neo4j:cypher>
     </changeSet>
 </databaseChangeLog>

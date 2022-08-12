@@ -10,5 +10,5 @@
         <rollback>MATCH (m:Movie {title: 'My Life'}) DETACH DELETE m</rollback>
     </changeSet>
 
-    <include file="includes/changeLog.sql" />
+    <include file="includes/changeLog.cypher" />
 </databaseChangeLog>

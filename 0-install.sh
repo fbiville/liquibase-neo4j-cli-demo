@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuxo pipefail
 
-LIQUIBASE_NEO4J_VERSION="4.15.0"
+LIQUIBASE_NEO4J_VERSION="4.15.0.3"
 
 brew install --quiet liquibase
 
